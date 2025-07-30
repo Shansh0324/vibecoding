@@ -7,8 +7,8 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: {
-        template: "VibeCode - Editor ",
-        default: "Code Editor For VibeCoders - CodeVed",
+        template: "CodeVed  - Editor ",
+        default: "CodeVed - Code Editor For VibeCoders ",
     },
 };
 
