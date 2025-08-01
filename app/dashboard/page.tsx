@@ -1,11 +1,12 @@
 import React from 'react'
+import { deleteProjectById, duplicateProjectById, editProjectById, getAllPlaygroundForUser } from '@/features/dashboard/actions';
 import AddNewButton from '@/features/dashboard/components/add-new-button';
 import AddRepoButton from '@/features/dashboard/components/add-repo-button';
 import EmptyState from '@/components/ui/empty-state';
+import ProjectTable from '@/features/dashboard/components/project-table';
+const page = async () => {
 
-const page = () => {
-
-    const playgrounds:any[] = [];
+  const playgrounds = await getAllPlaygroundForUser();
 
   return (
     <div className='flex flex-col justify-start items-center min-h-screen mx-auto max-w-7xl px-4 py-10'>
@@ -15,17 +16,21 @@ const page = () => {
       </div>
       <div className='mt-10 flex flex-col justify-center items-center w-full'>
         {
-            playgrounds && playgrounds.length === 0 ? (
-                <EmptyState
-                    title="No Projects Found"
-                    description="Create a new Project to get started."
-                    imageSrc="/empty-state.svg"
-                />
-            ) : (
-                <p>
-                    PLayground table
-                </p>
-            )
+          playgrounds && playgrounds.length === 0 ? (
+            <EmptyState
+              title="No Projects Found"
+              description="Create a new Project to get started."
+              imageSrc="/empty-state.svg"
+            />
+          ) : (
+            <ProjectTable
+            // @ts-ignore
+              projects={playgrounds || []}
+              onDeleteProject={deleteProjectById}
+              onUpdateProject={editProjectById}
+              onDuplicateProject={async (id: string) => { await duplicateProjectById(id); }}
+            />
+          )
         }
       </div>
     </div>
