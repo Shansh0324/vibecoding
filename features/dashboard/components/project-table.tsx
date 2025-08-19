@@ -237,7 +237,7 @@ export default function ProjectTable({
                         onClick={() => handleDeleteClick(project)}
                         className="text-destructive focus:text-destructive"
                       >
-                        <Trash2 className="h-4 w-4 mr-2" />
+                        <Trash2 className="h-4 w-4 mr-2 text-red-400" />
                         Delete Project
                       </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -296,7 +296,7 @@ export default function ProjectTable({
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Project</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{selectedProject?.title}"? This action cannot be undone. All files and
+              Are you sure you want to delete <span className="text-red-500 font-semibold">"{selectedProject?.title}"?</span> This action cannot be undone. All files and
               data associated with this project will be permanently removed.
             </AlertDialogDescription>
           </AlertDialogHeader>
