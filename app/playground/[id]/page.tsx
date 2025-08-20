@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { usePlayground } from "@/features/playground/hooks/usePlayground";
 import { useParams } from "next/navigation";
+import TemplateFileTree from "@/features/playground/components/template-file-tree";
 import React from "react";
 
 const Page = () => {
@@ -16,7 +17,8 @@ const Page = () => {
   return (
     <div>
       <>
-        {/* TODO */}
+         //@ts-ignore
+        <TemplateFileTree />  
         <SidebarInset>
           <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
             <SidebarTrigger className="-ml-1" />
