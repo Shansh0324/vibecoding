@@ -1,8 +1,10 @@
-
-import { useState, useEffect, useCallback } from 'react';
-import { toast } from 'sonner';
-import { getPlaygroundById, SaveUpdatedCode } from '@/features/playground/actions';
-import { TemplateFolder } from '../lib/path-to-json';
+import { useState, useEffect, useCallback } from "react";
+import { toast } from "sonner";
+import {
+  getPlaygroundById,
+  SaveUpdatedCode,
+} from "@/features/playground/actions";
+import { TemplateFolder } from "../lib/path-to-json";
 
 interface PlaygroundData {
   id: string;
@@ -20,7 +22,9 @@ interface UsePlaygroundReturn {
 }
 
 export const usePlayground = (id: string): UsePlaygroundReturn => {
-  const [playgroundData, setPlaygroundData] = useState<PlaygroundData | null>(null);
+  const [playgroundData, setPlaygroundData] = useState<PlaygroundData | null>(
+    null
+  );
   const [templateData, setTemplateData] = useState<TemplateFolder | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -33,7 +37,7 @@ export const usePlayground = (id: string): UsePlaygroundReturn => {
       setError(null);
 
       const data = await getPlaygroundById(id);
-    //   @ts-ignore
+      //   @ts-ignore
       setPlaygroundData(data);
 
       const rawContent = data?.templateFiles?.[0]?.content;
@@ -55,10 +59,12 @@ export const usePlayground = (id: string): UsePlaygroundReturn => {
           items: templateRes.templateJson,
         });
       } else {
-        setTemplateData(templateRes.templateJson || {
-          folderName: "Root",
-          items: [],
-        });
+        setTemplateData(
+          templateRes.templateJson || {
+            folderName: "Root",
+            items: [],
+          }
+        );
       }
 
       toast.success("Template loaded successfully");
@@ -71,17 +77,20 @@ export const usePlayground = (id: string): UsePlaygroundReturn => {
     }
   }, [id]);
 
-  const saveTemplateData = useCallback(async (data: TemplateFolder) => {
-    try {
-      await SaveUpdatedCode(id, data);
-      setTemplateData(data);
-      toast.success("Changes saved successfully");
-    } catch (error) {
-      console.error("Error saving template data:", error);
-      toast.error("Failed to save changes");
-      throw error;
-    }
-  }, [id]);
+  const saveTemplateData = useCallback(
+    async (data: TemplateFolder) => {
+      try {
+        await SaveUpdatedCode(id, data);
+        setTemplateData(data);
+        toast.success("Changes saved successfully");
+      } catch (error) {
+        console.error("Error saving template data:", error);
+        toast.error("Failed to save changes");
+        throw error;
+      }
+    },
+    [id]
+  );
 
   useEffect(() => {
     loadPlayground();
