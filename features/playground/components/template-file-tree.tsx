@@ -114,39 +114,40 @@ const TemplateFileTree = ({
   onRenameFolder,
 }: TemplateFileTreeProps) => {
   const isRootFolder = data && typeof data === "object" && "folderName" in data;
-  const [isNewFileDialogOpen, setIsNewFileDialogOpen] = React.useState(false)
-  const [isNewFolderDialogOpen, setIsNewFolderDialogOpen] = React.useState(false)
+  const [isNewFileDialogOpen, setIsNewFileDialogOpen] = React.useState(false);
+  const [isNewFolderDialogOpen, setIsNewFolderDialogOpen] =
+    React.useState(false);
 
-  const handleAddRootFile = ()=>{
-    setIsNewFileDialogOpen(true)
-  }
+  const handleAddRootFile = () => {
+    setIsNewFileDialogOpen(true);
+  };
 
   const handleAddRootFolder = () => {
-    setIsNewFolderDialogOpen(true)
-  }
+    setIsNewFolderDialogOpen(true);
+  };
 
-    const handleCreateFile = (filename: string, extension: string) => {
+  const handleCreateFile = (filename: string, extension: string) => {
     if (onAddFile && isRootFolder) {
       const newFile: TemplateFile = {
         filename,
         fileExtension: extension,
         content: "",
-      }
-      onAddFile(newFile, "")
+      };
+      onAddFile(newFile, "");
     }
-    setIsNewFileDialogOpen(false)
-  }
+    setIsNewFileDialogOpen(false);
+  };
 
   const handleCreateFolder = (folderName: string) => {
     if (onAddFolder && isRootFolder) {
       const newFolder: TemplateFolder = {
         folderName,
         items: [],
-      }
-      onAddFolder(newFolder, "")
+      };
+      onAddFolder(newFolder, "");
     }
-    setIsNewFolderDialogOpen(false)
-  }
+    setIsNewFolderDialogOpen(false);
+  };
   return (
     <Sidebar>
       <SidebarContent>
@@ -210,52 +211,58 @@ const TemplateFileTree = ({
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarRail/>
+      <SidebarRail />
 
-<NewFileDialog
-isOpen={isNewFileDialogOpen}
-onClose={()=>{setIsNewFileDialogOpen(false)}}
-onCreateFile={handleCreateFile}
-/>
-<NewFolderDialog
+      <NewFileDialog
+        isOpen={isNewFileDialogOpen}
+        onClose={() => {
+          setIsNewFileDialogOpen(false);
+        }}
+        onCreateFile={handleCreateFile}
+      />
+      <NewFolderDialog
         isOpen={isNewFolderDialogOpen}
         onClose={() => setIsNewFolderDialogOpen(false)}
         onCreateFolder={handleCreateFolder}
       />
-
     </Sidebar>
   );
 };
 
 export default TemplateFileTree;
 
-
-interface NewFileDialogProps{
-  isOpen: boolean
-  onClose: () => void
-  onCreateFile: (filename: string, extension: string) => void
+interface NewFileDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onCreateFile: (filename: string, extension: string) => void;
 }
 
-export function NewFileDialog({ isOpen, onClose, onCreateFile }: NewFileDialogProps) {
-  const [filename, setFilename] = React.useState("")
-  const [extension, setExtension] = React.useState("js")
+export function NewFileDialog({
+  isOpen,
+  onClose,
+  onCreateFile,
+}: NewFileDialogProps) {
+  const [filename, setFilename] = React.useState("");
+  const [extension, setExtension] = React.useState("js");
 
   const handleSubmit = (e: React.FormEvent) => {
-    console.log("function is called")
-    e.preventDefault()
+    console.log("function is called");
+    e.preventDefault();
     if (filename.trim()) {
-      onCreateFile(filename.trim(), extension.trim() || "js")
-      setFilename("")
-      setExtension("js")
+      onCreateFile(filename.trim(), extension.trim() || "js");
+      setFilename("");
+      setExtension("js");
     }
-  }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create New File</DialogTitle>
-          <DialogDescription>Enter a name for the new file and select its extension.</DialogDescription>
+          <DialogDescription>
+            Enter a name for the new file and select its extension.
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
@@ -296,33 +303,38 @@ export function NewFileDialog({ isOpen, onClose, onCreateFile }: NewFileDialogPr
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
 
 interface NewFolderDialogProps {
-  isOpen: boolean
-  onClose: () => void
-  onCreateFolder: (folderName: string) => void
+  isOpen: boolean;
+  onClose: () => void;
+  onCreateFolder: (folderName: string) => void;
 }
 
-
-export function NewFolderDialog({ isOpen, onClose, onCreateFolder }: NewFolderDialogProps) {
-  const [folderName, setFolderName] = React.useState("")
+export function NewFolderDialog({
+  isOpen,
+  onClose,
+  onCreateFolder,
+}: NewFolderDialogProps) {
+  const [folderName, setFolderName] = React.useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (folderName.trim()) {
-      onCreateFolder(folderName.trim())
-      setFolderName("")
+      onCreateFolder(folderName.trim());
+      setFolderName("");
     }
-  }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create New Folder</DialogTitle>
-          <DialogDescription>Enter a name for the new folder.</DialogDescription>
+          <DialogDescription>
+            Enter a name for the new folder.
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
@@ -351,34 +363,40 @@ export function NewFolderDialog({ isOpen, onClose, onCreateFolder }: NewFolderDi
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
 
 interface RenameFileDialogProps {
-  isOpen: boolean
-  onClose: () => void
-  onRename: (filename: string, extension: string) => void
-  currentFilename: string
-  currentExtension: string
+  isOpen: boolean;
+  onClose: () => void;
+  onRename: (filename: string, extension: string) => void;
+  currentFilename: string;
+  currentExtension: string;
 }
 
-export function RenameFileDialog({ isOpen, onClose, onRename, currentFilename, currentExtension }: RenameFileDialogProps) {
-  const [filename, setFilename] = React.useState(currentFilename)
-  const [extension, setExtension] = React.useState(currentExtension)
+export function RenameFileDialog({
+  isOpen,
+  onClose,
+  onRename,
+  currentFilename,
+  currentExtension,
+}: RenameFileDialogProps) {
+  const [filename, setFilename] = React.useState(currentFilename);
+  const [extension, setExtension] = React.useState(currentExtension);
 
   React.useEffect(() => {
     if (isOpen) {
-      setFilename(currentFilename)
-      setExtension(currentExtension)
+      setFilename(currentFilename);
+      setExtension(currentExtension);
     }
-  }, [isOpen, currentFilename, currentExtension])
+  }, [isOpen, currentFilename, currentExtension]);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (filename.trim()) {
-      onRename(filename.trim(), extension.trim() || currentExtension)
+      onRename(filename.trim(), extension.trim() || currentExtension);
     }
-  }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -424,38 +442,45 @@ export function RenameFileDialog({ isOpen, onClose, onRename, currentFilename, c
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
 
 interface RenameFolderDialogProps {
-  isOpen: boolean
-  onClose: () => void
-  onRename: (folderName: string) => void
-  currentFolderName: string
+  isOpen: boolean;
+  onClose: () => void;
+  onRename: (folderName: string) => void;
+  currentFolderName: string;
 }
 
-export function RenameFolderDialog({ isOpen, onClose, onRename, currentFolderName }: RenameFolderDialogProps) {
-  const [folderName, setFolderName] = React.useState(currentFolderName)
+export function RenameFolderDialog({
+  isOpen,
+  onClose,
+  onRename,
+  currentFolderName,
+}: RenameFolderDialogProps) {
+  const [folderName, setFolderName] = React.useState(currentFolderName);
 
   React.useEffect(() => {
     if (isOpen) {
-      setFolderName(currentFolderName)
+      setFolderName(currentFolderName);
     }
-  }, [isOpen, currentFolderName])
+  }, [isOpen, currentFolderName]);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (folderName.trim()) {
-      onRename(folderName.trim())
+      onRename(folderName.trim());
     }
-  }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Rename Folder</DialogTitle>
-          <DialogDescription>Enter a new name for the folder.</DialogDescription>
+          <DialogDescription>
+            Enter a new name for the folder.
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
@@ -483,5 +508,5 @@ export function RenameFolderDialog({ isOpen, onClose, onRename, currentFolderNam
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
